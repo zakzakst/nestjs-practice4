@@ -1,0 +1,19 @@
+{
+  "input": {
+    "files": ["dist/bundle.yaml"]
+  },
+  "plugins": {
+    "@dtsgenerator/replace-namespace": {
+      "map": [
+        {
+          "from": ["Components"],
+          "to": ["JPComponents"]
+        },
+        {
+          "from": ["Paths"],
+          "to": ["JPPaths"]
+        }
+      ]
+    }
+  }
+}

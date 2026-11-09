@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: JSONPlaceholder API
+  version: 1.0.0
+  description: JSONPlaceholder API
+servers:
+  - url: https://jsonplaceholder.typicode.com
+paths:
+  /posts:
+    get:
+      summary: 投稿一覧を取得します
+      responses:
+        '200':
+          description: HTTPステータスコード200と投稿一覧を含むJSONオブジェクトを返します。
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/post'
+components:
+  schemas:
+    post:
+      type: object
+      required:
+        - userId
+        - id
+        - title
+        - body
+      properties:
+        userId:
+          type: integer
+          example: 1
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: 初めてのブログ記事
+        body:
+          type: string
+          example: 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。

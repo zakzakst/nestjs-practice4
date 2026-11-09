@@ -7,9 +7,13 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "swagger:bundle": "redocly bundle src/jsonplaceholder.yaml --output dist/bundle.yaml",
+    "swagger:docs": "redocly build-docs dist/bundle.yaml --output=dist/docs.html",
+    "swagger:typescript": "dtsgen -o dist/schema.d.ts -c dtsgen.json"
   },
   "devDependencies": {
-    "openapi-typescript": "^7.13.0"
+    "@dtsgenerator/replace-namespace": "^1.7.0",
+    "@redocly/cli": "^2.76.0",
+    "dtsgenerator": "^3.19.2"
   }
 }

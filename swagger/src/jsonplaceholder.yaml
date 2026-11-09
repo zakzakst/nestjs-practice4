@@ -1,0 +1,13 @@
+openapi: 3.0.3
+
+info:
+  title: JSONPlaceholder API
+  version: 1.0.0
+  description: JSONPlaceholder API
+
+servers:
+  - url: https://jsonplaceholder.typicode.com
+
+paths:
+  /posts:
+    $ref: ./paths/posts.yaml

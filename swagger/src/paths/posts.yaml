@@ -1,0 +1,11 @@
+get:
+  summary: 投稿一覧を取得します
+  responses:
+    "200":
+      description: HTTPステータスコード200と投稿一覧を含むJSONオブジェクトを返します。
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../schemas/post.yaml"
