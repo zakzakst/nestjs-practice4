@@ -1,6 +1,6 @@
 {
   "input": {
-    "files": ["dist/bundle.yaml"]
+    "files": ["dist/jp/index.yaml"]
   },
   "plugins": {
     "@dtsgenerator/replace-namespace": {

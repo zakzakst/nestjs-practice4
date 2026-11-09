@@ -28,7 +28,7 @@ declare namespace JPPaths {
     namespace Posts {
         namespace Get {
             namespace Responses {
-                export type $200 = JPComponents.Schemas.Post;
+                export type $200 = JPComponents.Schemas.Post[];
             }
         }
     }

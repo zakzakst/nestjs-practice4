@@ -7,13 +7,15 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "swagger:bundle": "redocly bundle src/jsonplaceholder.yaml --output dist/bundle.yaml",
-    "swagger:docs": "redocly build-docs dist/bundle.yaml --output=dist/docs.html",
-    "swagger:typescript": "dtsgen -o dist/schema.d.ts -c dtsgen.json"
+    "jp:bundle": "redocly bundle src/jp/index.yaml --output dist/jp/index.yaml",
+    "jp:docs": "redocly build-docs dist/jp/index.yaml --output=dist/jp/docs.html",
+    "jp:typescript": "dtsgen -o dist/jp/schema.d.ts -c src/jp/dtsgen.json",
+    "jp": "run-s jp:**"
   },
   "devDependencies": {
     "@dtsgenerator/replace-namespace": "^1.7.0",
     "@redocly/cli": "^2.76.0",
-    "dtsgenerator": "^3.19.2"
+    "dtsgenerator": "^3.19.2",
+    "npm-run-all": "^4.1.5"
   }
 }
