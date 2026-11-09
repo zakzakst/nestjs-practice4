@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { EPost } from './post.entity.js';
 
 @Injectable()
 export class PostsService {
-  private posts: EPost[] = [
+  private posts: BFFComponents.Schemas.Post[] = [
     {
       userId: 1,
       id: 1,
@@ -12,13 +11,15 @@ export class PostsService {
     },
   ];
 
-  findAll(): EPost[] {
+  findAll(): BFFPaths.Posts.Get.Responses.$200 {
     return this.posts;
   }
 
-  create(request: { userId: number; title: string; body: string }): EPost {
+  create(
+    request: BFFPaths.Posts.Post.RequestBody,
+  ): BFFPaths.Posts.Post.Responses.$201 {
     const { userId, title, body } = request;
-    const newPost: EPost = {
+    const newPost: BFFComponents.Schemas.Post = {
       userId,
       id: this.posts.length + 1,
       title,

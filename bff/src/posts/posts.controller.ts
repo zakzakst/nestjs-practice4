@@ -1,20 +1,19 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { PostsService } from './posts.service.js';
-import type { EPost } from './post.entity.js';
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  findAll(): EPost[] {
+  findAll(): BFFPaths.Posts.Get.Responses.$200 {
     return this.postsService.findAll();
   }
 
   @Post()
   create(
-    @Body() request: { userId: number; title: string; body: string },
-  ): EPost {
+    @Body() request: BFFPaths.Posts.Post.RequestBody,
+  ): BFFPaths.Posts.Post.Responses.$201 {
     return this.postsService.create(request);
   }
 }
