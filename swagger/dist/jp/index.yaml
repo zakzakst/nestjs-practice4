@@ -8,10 +8,10 @@ servers:
 paths:
   /posts:
     get:
-      summary: 投稿一覧を取得します
+      summary: 投稿一覧取得
       responses:
         '200':
-          description: HTTPステータスコード200と投稿一覧を含むJSONオブジェクトを返します。
+          description: 取得成功
           content:
             application/json:
               schema:
@@ -19,7 +19,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/post'
     post:
-      summary: 新規投稿を作成します
+      summary: 新規投稿作成
       requestBody:
         content:
           application/json:
@@ -41,14 +41,14 @@ paths:
                   example: 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。
       responses:
         '201':
-          description: HTTPステータスコード201と作成された投稿を含むJSONオブジェクトを返します。
+          description: 作成成功
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/post'
   /posts/{id}:
     get:
-      summary: 投稿を取得します
+      summary: 投稿取得
       parameters:
         - name: id
           in: path
@@ -58,11 +58,48 @@ paths:
             type: integer
       responses:
         '200':
-          description: HTTPステータスコード200と投稿を含むJSONオブジェクトを返します。
+          description: 取得成功
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/post'
+    put:
+      summary: 投稿更新
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 投稿ID
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/post'
+    delete:
+      summary: 投稿削除
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 投稿ID
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: 削除成功
+          content:
+            application/json:
+              schema:
+                type: object
 components:
   schemas:
     post:

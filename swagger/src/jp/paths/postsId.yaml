@@ -1,5 +1,5 @@
 get:
-  summary: 投稿を取得します
+  summary: 投稿取得
   parameters:
     - name: id
       in: path
@@ -9,8 +9,47 @@ get:
         type: integer
   responses:
     "200":
-      description: HTTPステータスコード200と投稿を含むJSONオブジェクトを返します。
+      description: 取得成功
       content:
         application/json:
           schema:
             $ref: ../schemas/post.yaml
+
+put:
+  summary: 投稿更新
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: 投稿ID
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../schemas/post.yaml
+  responses:
+    "200":
+      description: 更新成功
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/post.yaml
+
+delete:
+  summary: 投稿削除
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: 投稿ID
+      schema:
+        type: integer
+  responses:
+    "204":
+      description: 削除成功
+      content:
+        application/json:
+          schema:
+            type: object

@@ -1,8 +1,8 @@
 get:
-  summary: 投稿一覧を取得します
+  summary: 投稿一覧取得
   responses:
     "200":
-      description: HTTPステータスコード200と投稿一覧を含むJSONオブジェクトを返します。
+      description: 取得成功
       content:
         application/json:
           schema:
@@ -11,7 +11,7 @@ get:
               $ref: ../schemas/post.yaml
 
 post:
-  summary: 新規投稿を作成します
+  summary: 新規投稿作成
   requestBody:
     content:
       application/json:
@@ -33,7 +33,7 @@ post:
               example: 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。
   responses:
     "201":
-      description: HTTPステータスコード201と作成された投稿を含むJSONオブジェクトを返します。
+      description: 作成成功
       content:
         application/json:
           schema:

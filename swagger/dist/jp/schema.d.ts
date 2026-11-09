@@ -55,6 +55,18 @@ declare namespace JPPaths {
         }
     }
     namespace Posts$Id {
+        namespace Delete {
+            namespace Parameters {
+                export type Id = number;
+            }
+            export interface PathParameters {
+                id: Parameters.Id;
+            }
+            namespace Responses {
+                export interface $204 {
+                }
+            }
+        }
         namespace Get {
             namespace Parameters {
                 export type Id = number;
@@ -62,6 +74,18 @@ declare namespace JPPaths {
             export interface PathParameters {
                 id: Parameters.Id;
             }
+            namespace Responses {
+                export type $200 = JPComponents.Schemas.Post;
+            }
+        }
+        namespace Put {
+            namespace Parameters {
+                export type Id = number;
+            }
+            export interface PathParameters {
+                id: Parameters.Id;
+            }
+            export type RequestBody = JPComponents.Schemas.Post;
             namespace Responses {
                 export type $200 = JPComponents.Schemas.Post;
             }
