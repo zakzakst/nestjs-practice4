@@ -31,5 +31,27 @@ declare namespace JPPaths {
                 export type $200 = JPComponents.Schemas.Post[];
             }
         }
+        namespace Post {
+            export interface RequestBody {
+                /**
+                 * example:
+                 * 1
+                 */
+                userId: number;
+                /**
+                 * example:
+                 * 初めてのブログ記事
+                 */
+                title: string;
+                /**
+                 * example:
+                 * 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。
+                 */
+                body: string;
+            }
+            namespace Responses {
+                export type $201 = JPComponents.Schemas.Post;
+            }
+        }
     }
 }

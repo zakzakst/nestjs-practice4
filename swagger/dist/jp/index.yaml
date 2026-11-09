@@ -18,6 +18,34 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/post'
+    post:
+      summary: 新規投稿を登録します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - title
+                - body
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                title:
+                  type: string
+                  example: 初めてのブログ記事
+                body:
+                  type: string
+                  example: 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。
+      responses:
+        '201':
+          description: HTTPステータスコード201と登録された投稿を含むJSONオブジェクトを返します。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/post'
 components:
   schemas:
     post:

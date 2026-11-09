@@ -1,0 +1,2 @@
+- https://jsonplaceholder.typicode.com/
+- https://developer.mozilla.org/ja/docs/Web/HTTP/Reference/Status
