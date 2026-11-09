@@ -19,7 +19,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/post'
     post:
-      summary: 新規投稿を登録します
+      summary: 新規投稿を作成します
       requestBody:
         content:
           application/json:
@@ -41,7 +41,24 @@ paths:
                   example: 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。
       responses:
         '201':
-          description: HTTPステータスコード201と登録された投稿を含むJSONオブジェクトを返します。
+          description: HTTPステータスコード201と作成された投稿を含むJSONオブジェクトを返します。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/post'
+  /posts/{id}:
+    get:
+      summary: 投稿を取得します
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 投稿ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: HTTPステータスコード200と投稿を含むJSONオブジェクトを返します。
           content:
             application/json:
               schema:

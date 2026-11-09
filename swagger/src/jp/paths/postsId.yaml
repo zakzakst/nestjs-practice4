@@ -1,0 +1,16 @@
+get:
+  summary: 投稿を取得します
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: 投稿ID
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: HTTPステータスコード200と投稿を含むJSONオブジェクトを返します。
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/post.yaml

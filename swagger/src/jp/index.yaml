@@ -11,3 +11,5 @@ servers:
 paths:
   /posts:
     $ref: ./paths/posts.yaml
+  /posts/{id}:
+    $ref: ./paths/postsId.yaml

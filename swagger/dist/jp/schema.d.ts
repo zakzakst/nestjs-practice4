@@ -54,4 +54,17 @@ declare namespace JPPaths {
             }
         }
     }
+    namespace Posts$Id {
+        namespace Get {
+            namespace Parameters {
+                export type Id = number;
+            }
+            export interface PathParameters {
+                id: Parameters.Id;
+            }
+            namespace Responses {
+                export type $200 = JPComponents.Schemas.Post;
+            }
+        }
+    }
 }
