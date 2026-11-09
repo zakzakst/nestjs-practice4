@@ -1,0 +1,15 @@
+openapi: 3.0.3
+
+info:
+  title: BFF API
+  version: 1.0.0
+  description: BFF API
+
+servers:
+  - url: http://127.0.0.1:3000
+
+paths:
+  /posts:
+    $ref: ./paths/posts.yaml
+  /posts/{id}:
+    $ref: ./paths/postsId.yaml

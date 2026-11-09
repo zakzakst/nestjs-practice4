@@ -1,0 +1,19 @@
+{
+  "input": {
+    "files": ["dist/bff/index.yaml"]
+  },
+  "plugins": {
+    "@dtsgenerator/replace-namespace": {
+      "map": [
+        {
+          "from": ["Components"],
+          "to": ["BFFComponents"]
+        },
+        {
+          "from": ["Paths"],
+          "to": ["BFFPaths"]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,40 @@
+get:
+  summary: 投稿一覧取得
+  responses:
+    "200":
+      description: 取得成功
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../schemas/post.yaml
+
+post:
+  summary: 新規投稿作成
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - userId
+            - title
+            - body
+          properties:
+            userId:
+              type: integer
+              example: 1
+            title:
+              type: string
+              example: 初めてのブログ記事
+            body:
+              type: string
+              example: 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。
+  responses:
+    "201":
+      description: 作成成功
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/post.yaml
