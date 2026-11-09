@@ -13,7 +13,7 @@ export class PostsController {
 
   @Post()
   create(
-    @Body('request') request: { userId: number; title: string; body: string },
+    @Body() request: { userId: number; title: string; body: string },
   ): EPost {
     return this.postsService.create(request);
   }
