@@ -1,17 +1,16 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { JPPostRepository } from '../repositories/JPPostRepository.js';
 
 @Injectable()
 export class PostsService {
+  private postRepository: JPPostRepository;
+
+  constructor() {
+    this.postRepository = new JPPostRepository();
+  }
+
   async findAll(): Promise<BFFPaths.Posts.Get.Responses.$200> {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-
-    if (!response.ok) {
-      throw new InternalServerErrorException(
-        `外部APIとの接続に失敗しました: ${response.status}`,
-      );
-    }
-
-    return (await response.json()) as BFFPaths.Posts.Get.Responses.$200;
+    return await this.postRepository.get();
   }
 
   async create(
@@ -25,20 +24,6 @@ export class PostsService {
       body,
     };
 
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    });
-
-    if (!response.ok) {
-      throw new InternalServerErrorException(
-        `外部APIとの接続に失敗しました: ${response.status}`,
-      );
-    }
-
-    return (await response.json()) as BFFPaths.Posts.Post.Responses.$201;
+    return await this.postRepository.post(payload);
   }
 }
