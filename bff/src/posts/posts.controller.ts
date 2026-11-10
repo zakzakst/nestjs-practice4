@@ -6,7 +6,7 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  findAll(): BFFPaths.Posts.Get.Responses.$200 {
+  findAll(): Promise<BFFPaths.Posts.Get.Responses.$200> {
     return this.postsService.findAll();
   }
 

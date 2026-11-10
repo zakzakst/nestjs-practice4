@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 
 @Injectable()
 export class PostsService {
@@ -11,8 +11,16 @@ export class PostsService {
     },
   ];
 
-  findAll(): BFFPaths.Posts.Get.Responses.$200 {
-    return this.posts;
+  async findAll(): Promise<BFFPaths.Posts.Get.Responses.$200> {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+
+    if (!response.ok) {
+      throw new InternalServerErrorException(
+        `外部APIの取得に失敗しました: ${response.status}`,
+      );
+    }
+
+    return (await response.json()) as BFFPaths.Posts.Get.Responses.$200;
   }
 
   create(
