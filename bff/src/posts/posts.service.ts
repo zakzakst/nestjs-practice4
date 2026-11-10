@@ -2,38 +2,43 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 
 @Injectable()
 export class PostsService {
-  private posts: BFFComponents.Schemas.Post[] = [
-    {
-      userId: 1,
-      id: 1,
-      title: '投稿1',
-      body: '内容1',
-    },
-  ];
-
   async findAll(): Promise<BFFPaths.Posts.Get.Responses.$200> {
     const response = await fetch('https://jsonplaceholder.typicode.com/posts');
 
     if (!response.ok) {
       throw new InternalServerErrorException(
-        `外部APIの取得に失敗しました: ${response.status}`,
+        `外部APIとの接続に失敗しました: ${response.status}`,
       );
     }
 
     return (await response.json()) as BFFPaths.Posts.Get.Responses.$200;
   }
 
-  create(
+  async create(
     request: BFFPaths.Posts.Post.RequestBody,
-  ): BFFPaths.Posts.Post.Responses.$201 {
+  ): Promise<BFFPaths.Posts.Post.Responses.$201> {
     const { userId, title, body } = request;
-    const newPost: BFFComponents.Schemas.Post = {
+
+    const payload = {
       userId,
-      id: this.posts.length + 1,
       title,
       body,
     };
-    this.posts.push(newPost);
-    return newPost;
+
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    });
+
+    if (!response.ok) {
+      throw new InternalServerErrorException(
+        `外部APIとの接続に失敗しました: ${response.status}`,
+      );
+    }
+
+    return (await response.json()) as BFFPaths.Posts.Post.Responses.$201;
   }
 }

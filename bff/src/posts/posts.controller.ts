@@ -13,7 +13,7 @@ export class PostsController {
   @Post()
   create(
     @Body() request: BFFPaths.Posts.Post.RequestBody,
-  ): BFFPaths.Posts.Post.Responses.$201 {
+  ): Promise<BFFPaths.Posts.Post.Responses.$201> {
     return this.postsService.create(request);
   }
 }
