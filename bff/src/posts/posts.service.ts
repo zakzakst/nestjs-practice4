@@ -1,13 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JPPostRepository } from '../repositories/JPPostRepository.js';
 
 @Injectable()
 export class PostsService {
-  private postRepository: JPPostRepository;
-
-  constructor() {
-    this.postRepository = new JPPostRepository();
-  }
+  constructor(private readonly postRepository: JPPostRepository) {}
 
   async findAll(): Promise<BFFPaths.Posts.Get.Responses.$200> {
     return await this.postRepository.get();

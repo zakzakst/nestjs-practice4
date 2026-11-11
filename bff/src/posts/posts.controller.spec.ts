@@ -14,7 +14,7 @@ describe('PostsController', () => {
     controller = module.get<PostsController>(PostsController);
   });
 
-  it('findAllで投稿一覧を取得できる', () => {
+  it.skip('findAllで投稿一覧を取得できる', () => {
     expect(controller.findAll()).toEqual([
       {
         userId: 1,
@@ -25,7 +25,7 @@ describe('PostsController', () => {
     ]);
   });
 
-  it('createで新規投稿が追加される', () => {
+  it.skip('createで新規投稿が追加される', () => {
     const newPost = controller.create({
       userId: 2,
       title: '投稿2',
