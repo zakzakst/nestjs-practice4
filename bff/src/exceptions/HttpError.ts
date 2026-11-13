@@ -5,7 +5,8 @@ export class HttpError extends Error {
   public logLevel: LogLevel;
   public details: unknown;
 
-  constructor() {
+  constructor(code: string) {
     super();
+    this.code = code;
   }
 }
