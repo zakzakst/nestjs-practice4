@@ -1,4 +1,4 @@
-import { InternalServerErrorException } from '@nestjs/common';
+import { JPErrors } from '../exceptions/JPErrors.js';
 
 export class JPPostRepository {
   // TODO: 環境変数に持たせる
@@ -8,10 +8,7 @@ export class JPPostRepository {
     const response = await fetch(this.jpBaseUrl);
 
     if (!response.ok) {
-      // exceptionにまとめてエラー管理する
-      throw new InternalServerErrorException(
-        `外部APIとの接続に失敗しました: ${response.status}`,
-      );
+      throw JPErrors.JP500_01(response);
     }
 
     return (await response.json()) as JPPaths.Posts.Get.Responses.$200;
@@ -29,9 +26,7 @@ export class JPPostRepository {
     });
 
     if (!response.ok) {
-      throw new InternalServerErrorException(
-        `外部APIとの接続に失敗しました: ${response.status}`,
-      );
+      throw JPErrors.JP500_01(response);
     }
 
     return (await response.json()) as JPPaths.Posts.Post.Responses.$201;
