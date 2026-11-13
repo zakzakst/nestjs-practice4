@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { JPPostRepository } from '../repositories/JPPostRepository.js';
+import { JPPostsRepository } from '../repositories/JPPostsRepository.js';
 
 @Injectable()
 export class PostsService {
-  constructor(private readonly postRepository: JPPostRepository) {}
+  constructor(private readonly postsRepository: JPPostsRepository) {}
 
   async findAll(): Promise<BFFPaths.Posts.Get.Responses.$200> {
-    return await this.postRepository.get();
+    return await this.postsRepository.get();
   }
 
   async create(
@@ -20,6 +20,6 @@ export class PostsService {
       body,
     };
 
-    return await this.postRepository.post(payload);
+    return await this.postsRepository.post(payload);
   }
 }

@@ -1,6 +1,6 @@
 import { JPErrors } from '../exceptions/JPErrors.js';
 
-export class JPPostRepository {
+export class JPPostsRepository {
   // TODO: 環境変数に持たせる
   private jpBaseUrl: string = 'https://jsonplaceholder.typicode.com/posts';
 
