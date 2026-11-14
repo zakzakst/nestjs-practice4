@@ -1,14 +1,18 @@
 import { JPErrors } from '../exceptions/JPErrors.js';
+import { ConfigService } from '@nestjs/config';
 
 export class JPPostsRepository {
-  // TODO: 環境変数に持たせる
-  private jpBaseUrl: string = 'https://jsonplaceholder.typicode.com/posts';
+  private readonly jpBaseUrl: string;
+
+  constructor(configService: ConfigService) {
+    this.jpBaseUrl = configService.getOrThrow<string>('JP_BASE_URL');
+  }
 
   async get(): Promise<JPPaths.Posts.Get.Responses.$200> {
     let response: Response;
 
     try {
-      response = await fetch(this.jpBaseUrl);
+      response = await fetch(`${this.jpBaseUrl}/posts`);
     } catch (e) {
       throw JPErrors.JP500_01(e);
     }
@@ -26,7 +30,7 @@ export class JPPostsRepository {
     let response: Response;
 
     try {
-      response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      response = await fetch(`${this.jpBaseUrl}/posts`, {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: {
