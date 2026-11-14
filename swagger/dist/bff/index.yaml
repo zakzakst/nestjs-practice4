@@ -15,9 +15,21 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/post'
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 100
+                  limit:
+                    type: integer
+                    example: 20
+                  page:
+                    type: integer
+                    example: 1
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/post'
     post:
       summary: 新規投稿作成
       requestBody:

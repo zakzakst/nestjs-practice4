@@ -16,33 +16,56 @@ const createSchema = z.object({
   body: z.string(),
 });
 
+const findAllGetFilteredItems = (
+  items: BFFComponents.Schemas.Post[],
+  total: number,
+  page: number,
+  limit: number,
+): BFFComponents.Schemas.Post[] => {
+  if (page * limit > total) {
+    return [];
+  }
+  const filteredItems = items.filter((_, index) => {
+    if (index >= page - 1 * limit && index < page * limit + 1) {
+      return true;
+    }
+    return false;
+  });
+  return filteredItems;
+};
+
 @Injectable()
 export class PostsService {
   constructor(private readonly postsRepository: JPPostsRepository) {}
 
-  async findAll(request: {
+  async findAll(request?: {
     page?: number;
     limit?: number;
   }): Promise<BFFPaths.Posts.Get.Responses.$200> {
+    // リクエストデータ検証
     const requestCheckResult = findAllSchema.safeParse(request);
     if (!requestCheckResult.success) {
       throw BffErrors.BFF400_02();
     }
 
-    const page = request.page ?? 1;
-    const limit = request.limit ?? FIND_ALL_DEFAULT_LIMIT;
     const jpResponse = await this.postsRepository.get();
+
     const total = jpResponse.length;
-    if (page * limit > total) {
-      return [];
-    }
-    const items = jpResponse.filter((_, index) => {
-      if (index >= page - 1 * limit && index < page * limit + 1) {
-        return true;
-      }
-      return false;
-    });
-    return items;
+    const page = request?.page ?? 1;
+    const limit = request?.limit ?? FIND_ALL_DEFAULT_LIMIT;
+    const filteredItems = findAllGetFilteredItems(
+      jpResponse,
+      total,
+      page,
+      limit,
+    );
+
+    return {
+      total,
+      limit,
+      page,
+      items: filteredItems,
+    };
   }
 
   create(

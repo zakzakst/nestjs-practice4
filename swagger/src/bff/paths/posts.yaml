@@ -6,9 +6,21 @@ get:
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: ../schemas/post.yaml
+            type: object
+            properties:
+              total:
+                type: integer
+                example: 100
+              limit:
+                type: integer
+                example: 20
+              page:
+                type: integer
+                example: 1
+              items:
+                type: array
+                items:
+                  $ref: ../schemas/post.yaml
 
 post:
   summary: 新規投稿作成

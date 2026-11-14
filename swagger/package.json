@@ -9,11 +9,11 @@
   "scripts": {
     "bff:bundle": "redocly bundle src/bff/index.yaml --output dist/bff/index.yaml",
     "bff:docs": "redocly build-docs dist/bff/index.yaml --output=dist/bff/docs.html",
-    "bff:typescript": "dtsgen -o dist/bff/schema.d.ts -c src/bff/dtsgen.json",
+    "bff:typescript": "dtsgen -o dist/bff/bff-schema.d.ts -c src/bff/dtsgen.json",
     "bff": "run-s bff:**",
     "jp:bundle": "redocly bundle src/jp/index.yaml --output dist/jp/index.yaml",
     "jp:docs": "redocly build-docs dist/jp/index.yaml --output=dist/jp/docs.html",
-    "jp:typescript": "dtsgen -o dist/jp/schema.d.ts -c src/jp/dtsgen.json",
+    "jp:typescript": "dtsgen -o dist/jp/jp-schema.d.ts -c src/jp/dtsgen.json",
     "jp": "run-s jp:**"
   },
   "devDependencies": {

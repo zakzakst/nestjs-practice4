@@ -28,7 +28,24 @@ declare namespace BFFPaths {
     namespace Posts {
         namespace Get {
             namespace Responses {
-                export type $200 = BFFComponents.Schemas.Post[];
+                export interface $200 {
+                    /**
+                     * example:
+                     * 100
+                     */
+                    total?: number;
+                    /**
+                     * example:
+                     * 20
+                     */
+                    limit?: number;
+                    /**
+                     * example:
+                     * 1
+                     */
+                    page?: number;
+                    items?: BFFComponents.Schemas.Post[];
+                }
             }
         }
         namespace Post {
