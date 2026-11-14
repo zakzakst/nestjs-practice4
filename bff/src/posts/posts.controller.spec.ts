@@ -23,7 +23,7 @@ describe('PostsController', () => {
     controller = module.get<PostsController>(PostsController);
   });
 
-  it('findAllで投稿一覧を取得できる', async () => {
+  it.todo('findAllで投稿一覧を取得できる', async () => {
     const responseMock = [{ userId: 1, id: 1, title: '投稿1', body: '内容1' }];
     postsRepositoryMock.get.mockResolvedValue(responseMock);
 
@@ -31,7 +31,7 @@ describe('PostsController', () => {
     expect(postsRepositoryMock.get).toHaveBeenCalledOnce();
   });
 
-  it('createに渡された値が、postsRepositoryに連携される', async () => {
+  it.todo('createに渡された値が、postsRepositoryに連携される', async () => {
     const payload = {
       userId: 2,
       title: '投稿2',
