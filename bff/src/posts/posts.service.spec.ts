@@ -21,29 +21,33 @@ describe('PostsService', () => {
     service = module.get<PostsService>(PostsService);
   });
 
-  it('findAllで投稿一覧を取得できる', async () => {
-    const posts = [{ userId: 1, id: 1, title: '投稿1', body: '内容1' }];
-    postsRepositoryMock.get.mockResolvedValue(posts);
+  describe('findAll', () => {
+    it('投稿一覧を取得できる', async () => {
+      const posts = [{ userId: 1, id: 1, title: '投稿1', body: '内容1' }];
+      postsRepositoryMock.get.mockResolvedValue(posts);
 
-    expect(await service.findAll()).toEqual(posts);
-    expect(postsRepositoryMock.get).toHaveBeenCalledOnce();
+      expect(await service.findAll()).toEqual(posts);
+      expect(postsRepositoryMock.get).toHaveBeenCalledOnce();
+    });
   });
 
-  it('createで新規投稿が追加される', async () => {
-    const post = { userId: 1, id: 1, title: '投稿1', body: '内容1' };
-    postsRepositoryMock.post.mockResolvedValue(post);
+  describe('create', () => {
+    it('新規投稿が追加される', async () => {
+      const post = { userId: 1, id: 1, title: '投稿1', body: '内容1' };
+      postsRepositoryMock.post.mockResolvedValue(post);
 
-    const newPost = await service.create({
-      userId: 2,
-      title: '投稿2',
-      body: '内容2',
-    });
+      const newPost = await service.create({
+        userId: 2,
+        title: '投稿2',
+        body: '内容2',
+      });
 
-    expect(newPost).toEqual(post);
-    expect(postsRepositoryMock.post).toHaveBeenCalledWith({
-      userId: 2,
-      title: '投稿2',
-      body: '内容2',
+      expect(newPost).toEqual(post);
+      expect(postsRepositoryMock.post).toHaveBeenCalledWith({
+        userId: 2,
+        title: '投稿2',
+        body: '内容2',
+      });
     });
   });
 });
