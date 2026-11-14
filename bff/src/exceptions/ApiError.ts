@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   InternalServerErrorException,
   BadGatewayException,
 } from '@nestjs/common';
@@ -11,6 +12,18 @@ type ApiErrorOptions = {
   logLevel?: LogLevel;
   details?: unknown;
 };
+
+export class ApiBadRequestException extends BadRequestException {
+  constructor(options: ApiErrorOptions) {
+    super({
+      statusCode: 400,
+      errorCode: options.errorCode,
+      message: options.message ?? 'リクエストが不正な形式でした',
+      logLevel: options.logLevel ?? 'ERROR',
+      details: options.details,
+    });
+  }
+}
 
 export class ApiInternalServerErrorException extends InternalServerErrorException {
   constructor(options: ApiErrorOptions) {
