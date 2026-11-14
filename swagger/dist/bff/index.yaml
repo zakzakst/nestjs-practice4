@@ -9,6 +9,17 @@ paths:
   /posts:
     get:
       summary: 投稿一覧取得
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: string
+            example: 1
+        - in: query
+          name: limit
+          schema:
+            type: string
+            example: 20
       responses:
         '200':
           description: 取得成功

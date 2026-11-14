@@ -23,22 +23,104 @@ describe('PostsController', () => {
     controller = module.get<PostsController>(PostsController);
   });
 
-  it.todo('findAllで投稿一覧を取得できる', async () => {
-    const responseMock = [{ userId: 1, id: 1, title: '投稿1', body: '内容1' }];
-    postsRepositoryMock.get.mockResolvedValue(responseMock);
+  describe('findAll', () => {
+    it('投稿一覧を取得できる', async () => {
+      // Arrange
+      const posts = [{ userId: 1, id: 1, title: '投稿1', body: '内容1' }];
+      postsRepositoryMock.get.mockResolvedValue(posts);
 
-    expect(await controller.findAll()).toEqual(responseMock);
-    expect(postsRepositoryMock.get).toHaveBeenCalledOnce();
+      // Act
+      const result = await controller.findAll();
+
+      // Assert
+      expect(result).toEqual({
+        total: 1,
+        limit: 20,
+        page: 1,
+        items: posts,
+      });
+      expect(postsRepositoryMock.get).toHaveBeenCalledOnce();
+    });
+
+    it('リクエストデータの値に応じて、データが絞り込まれる', async () => {
+      // Arrange
+      const posts = [
+        { userId: 1, id: 1, title: '投稿1', body: '内容1' },
+        { userId: 2, id: 2, title: '投稿2', body: '内容2' },
+      ];
+      postsRepositoryMock.get.mockResolvedValue(posts);
+
+      // Act
+      const result = await controller.findAll({
+        limit: '1',
+        page: '2',
+      });
+
+      // Assert
+      expect(result).toEqual({
+        total: 2,
+        limit: 1,
+        page: 2,
+        items: [{ userId: 2, id: 2, title: '投稿2', body: '内容2' }],
+      });
+    });
+
+    it('リクエストの形式が正しくない場合、エラーになる', () => {
+      // Arrange
+      const request = {
+        page: 'not number string',
+      };
+
+      // Assert
+      expect(controller.findAll(request)).rejects.toThrow(
+        'リクエストの形式が正しくありません',
+      );
+    });
   });
 
-  it.todo('createに渡された値が、postsRepositoryに連携される', async () => {
-    const payload = {
-      userId: 2,
-      title: '投稿2',
-      body: '内容2',
-    };
+  describe('create', () => {
+    it('渡された値が、postsRepositoryに連携される', async () => {
+      // Arrange
+      const request = {
+        userId: 2,
+        title: '投稿2',
+        body: '内容2',
+      };
 
-    await controller.create(payload);
-    expect(postsRepositoryMock.post).toHaveBeenCalledWith(payload);
+      // Act
+      await controller.create(request);
+
+      // Assert
+      expect(postsRepositoryMock.post).toHaveBeenCalledWith(request);
+    });
+
+    it('リクエストデータの必須項目が不足している場合、エラーになる', async () => {
+      // Arrange
+      const request = {
+        title: '投稿2',
+        body: '内容2',
+      };
+
+      // Assert
+      expect(
+        // @ts-expect-error
+        controller.create(request),
+      ).rejects.toThrow('リクエストの必須項目が不足しています');
+    });
+
+    it('リクエストの形式が正しくない場合、エラーになる', async () => {
+      // Arrange
+      const request = {
+        userId: '2',
+        title: '投稿2',
+        body: '内容2',
+      };
+
+      // Assert
+      expect(
+        // @ts-expect-error
+        controller.create(request),
+      ).rejects.toThrow('リクエストの形式が正しくありません');
+    });
   });
 });

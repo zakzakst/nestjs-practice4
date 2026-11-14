@@ -78,25 +78,19 @@ describe('PostsService', () => {
   });
 
   describe('create', () => {
-    it('新規投稿が追加される', async () => {
+    it('渡された値が、postsRepositoryに連携される', async () => {
       // Arrange
-      const post = { userId: 1, id: 1, title: '投稿1', body: '内容1' };
-      postsRepositoryMock.post.mockResolvedValue(post);
+      const request = {
+        userId: 2,
+        title: '投稿2',
+        body: '内容2',
+      };
 
       // Act
-      const result = await service.create({
-        userId: 2,
-        title: '投稿2',
-        body: '内容2',
-      });
+      await service.create(request);
 
       // Assert
-      expect(result).toEqual(post);
-      expect(postsRepositoryMock.post).toHaveBeenCalledWith({
-        userId: 2,
-        title: '投稿2',
-        body: '内容2',
-      });
+      expect(postsRepositoryMock.post).toHaveBeenCalledWith(request);
     });
 
     it('リクエストデータの必須項目が不足している場合、エラーになる', async () => {

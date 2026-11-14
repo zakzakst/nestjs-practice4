@@ -27,6 +27,30 @@ declare namespace BFFComponents {
 declare namespace BFFPaths {
     namespace Posts {
         namespace Get {
+            namespace Parameters {
+                /**
+                 * example:
+                 * 20
+                 */
+                export type Limit = string;
+                /**
+                 * example:
+                 * 1
+                 */
+                export type Page = string;
+            }
+            export interface QueryParameters {
+                page?: /**
+                 * example:
+                 * 1
+                 */
+                Parameters.Page;
+                limit?: /**
+                 * example:
+                 * 20
+                 */
+                Parameters.Limit;
+            }
             namespace Responses {
                 export interface $200 {
                     /**

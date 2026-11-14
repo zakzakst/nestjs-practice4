@@ -22,11 +22,11 @@ const findAllGetFilteredItems = (
   page: number,
   limit: number,
 ): BFFComponents.Schemas.Post[] => {
-  if (page - 1 * limit > total) {
+  if ((page - 1) * limit > total) {
     return [];
   }
   const filteredItems = items.filter((_, index) => {
-    if (index >= page - 1 * limit && index < page * limit) {
+    if (index >= (page - 1) * limit && index < page * limit) {
       return true;
     }
     return false;
