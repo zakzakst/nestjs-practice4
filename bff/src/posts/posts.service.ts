@@ -68,7 +68,7 @@ export class PostsService {
     };
   }
 
-  create(
+  async create(
     request: BFFPaths.Posts.Post.RequestBody,
   ): Promise<BFFPaths.Posts.Post.Responses.$201> {
     const { userId, title, body } = request;

@@ -17,7 +17,7 @@ export class BffErrors {
   // リクエスト形式不正エラー
   static BFF400_02(details?: unknown): ApiBadRequestException {
     return new ApiBadRequestException({
-      errorCode: 'BFF400_01',
+      errorCode: 'BFF400_02',
       message: 'リクエストの形式が正しくありません',
       details,
     });

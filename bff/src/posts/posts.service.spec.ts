@@ -40,9 +40,41 @@ describe('PostsService', () => {
       expect(postsRepositoryMock.get).toHaveBeenCalledOnce();
     });
 
-    it.todo('リクエストデータの値に応じて、データが絞り込まれる', () => {});
+    it('リクエストデータの値に応じて、データが絞り込まれる', async () => {
+      // Arrange
+      const posts = [
+        { userId: 1, id: 1, title: '投稿1', body: '内容1' },
+        { userId: 2, id: 2, title: '投稿2', body: '内容2' },
+      ];
+      postsRepositoryMock.get.mockResolvedValue(posts);
 
-    it.todo('リクエストデータが不正な場合エラーになる', () => {});
+      // Act
+      const result = await service.findAll({
+        limit: 1,
+        page: 2,
+      });
+
+      // Assert
+      expect(result).toEqual({
+        total: 2,
+        limit: 1,
+        page: 2,
+        items: [{ userId: 2, id: 2, title: '投稿2', body: '内容2' }],
+      });
+    });
+
+    it('リクエストの形式が正しくない場合、エラーになる', () => {
+      // Arrange
+      const request = {
+        page: '2',
+      };
+
+      // Assert
+      expect(
+        // @ts-expect-error
+        service.findAll(request),
+      ).rejects.toThrow('リクエストの形式が正しくありません');
+    });
   });
 
   describe('create', () => {
@@ -67,6 +99,33 @@ describe('PostsService', () => {
       });
     });
 
-    it.todo('リクエストデータが不正な場合エラーになる', () => {});
+    it('リクエストデータの必須項目が不足している場合、エラーになる', async () => {
+      // Arrange
+      const request = {
+        title: '投稿2',
+        body: '内容2',
+      };
+
+      // Assert
+      expect(
+        // @ts-expect-error
+        service.create(request),
+      ).rejects.toThrow('リクエストの必須項目が不足しています');
+    });
+
+    it('リクエストの形式が正しくない場合、エラーになる', async () => {
+      // Arrange
+      const request = {
+        userId: '2',
+        title: '投稿2',
+        body: '内容2',
+      };
+
+      // Assert
+      expect(
+        // @ts-expect-error
+        service.create(request),
+      ).rejects.toThrow('リクエストの形式が正しくありません');
+    });
   });
 });
