@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JPPostsRepository } from '../repositories/JPPostsRepository.js';
+import { BffErrors } from '../exceptions/BffErrors.js';
 
 @Injectable()
 export class PostsService {
@@ -7,17 +8,16 @@ export class PostsService {
 
   async findAll(): Promise<BFFPaths.Posts.Get.Responses.$200> {
     // TODO: エラーハンドリング
-    // - request情報不足
-    // - 外部API通信失敗
+    // - request形式不正
     return await this.postsRepository.get();
   }
 
-  async create(
+  create(
     request: BFFPaths.Posts.Post.RequestBody,
   ): Promise<BFFPaths.Posts.Post.Responses.$201> {
     // TODO: エラーハンドリング
-    // - request情報不足
-    // - 外部API通信失敗
+    // - request必須項目不足
+    // - request形式不正
     const { userId, title, body } = request;
 
     const payload = {
@@ -26,6 +26,6 @@ export class PostsService {
       body,
     };
 
-    return await this.postsRepository.post(payload);
+    return this.postsRepository.post(payload);
   }
 }
