@@ -26,7 +26,7 @@ const findAllGetFilteredItems = (
     return [];
   }
   const filteredItems = items.filter((_, index) => {
-    if (index >= page - 1 * limit && index < page * limit + 1) {
+    if (index >= page - 1 * limit && index < page * limit) {
       return true;
     }
     return false;
@@ -44,7 +44,7 @@ export class PostsService {
   }): Promise<BFFPaths.Posts.Get.Responses.$200> {
     // リクエストデータ検証
     const requestCheckResult = findAllSchema.safeParse(request);
-    if (!requestCheckResult.success) {
+    if (request && !requestCheckResult.success) {
       throw BffErrors.BFF400_02();
     }
 
