@@ -3,6 +3,13 @@ import { JPPostsRepository } from '../repositories/JPPostsRepository.js';
 import { BffErrors } from '../exceptions/BffErrors.js';
 import * as z from 'zod';
 
+const FIND_ALL_DEFAULT_LIMIT = 20;
+
+const findAllSchema = z.object({
+  page: z.number().optional(),
+  limit: z.number().optional(),
+});
+
 const createSchema = z.object({
   userId: z.number(),
   title: z.string(),
@@ -13,10 +20,29 @@ const createSchema = z.object({
 export class PostsService {
   constructor(private readonly postsRepository: JPPostsRepository) {}
 
-  async findAll(): Promise<BFFPaths.Posts.Get.Responses.$200> {
-    // TODO: エラーハンドリング
-    // - request形式不正
-    return await this.postsRepository.get();
+  async findAll(request: {
+    page?: number;
+    limit?: number;
+  }): Promise<BFFPaths.Posts.Get.Responses.$200> {
+    const requestCheckResult = findAllSchema.safeParse(request);
+    if (!requestCheckResult.success) {
+      throw BffErrors.BFF400_02();
+    }
+
+    const page = request.page ?? 1;
+    const limit = request.limit ?? FIND_ALL_DEFAULT_LIMIT;
+    const jpResponse = await this.postsRepository.get();
+    const total = jpResponse.length;
+    if (page * limit > total) {
+      return [];
+    }
+    const items = jpResponse.filter((_, index) => {
+      if (index >= page - 1 * limit && index < page * limit + 1) {
+        return true;
+      }
+      return false;
+    });
+    return items;
   }
 
   create(
@@ -24,19 +50,23 @@ export class PostsService {
   ): Promise<BFFPaths.Posts.Post.Responses.$201> {
     const { userId, title, body } = request;
 
-    const requestCheckResult = createSchema.safeParse(request);
-    if (requestCheckResult.error) {
-      // TODO: エラーハンドリング
-      // - request必須項目不足
-      // - request形式不正
-      throw BffErrors.BFF400_01();
-    }
-
     const payload = {
       userId,
       title,
       body,
     };
+
+    // 外部APIリクエストデータ検証
+    const payloadCheckResult = createSchema.safeParse(payload);
+    if (!payloadCheckResult.success) {
+      const missingFields = (['userId', 'title', 'body'] as const).filter(
+        (field) => payload[field] === undefined,
+      );
+      if (missingFields.length > 0) {
+        throw BffErrors.BFF400_01();
+      }
+      throw BffErrors.BFF400_02();
+    }
 
     return this.postsRepository.post(payload);
   }

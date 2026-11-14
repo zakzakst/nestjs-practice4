@@ -7,7 +7,7 @@ export class PostsController {
 
   @Get()
   findAll(): Promise<BFFPaths.Posts.Get.Responses.$200> {
-    return this.postsService.findAll();
+    return this.postsService.findAll({});
   }
 
   @Post()
