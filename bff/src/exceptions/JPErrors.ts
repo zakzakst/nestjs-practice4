@@ -1,13 +1,12 @@
 import {
-  InternalServerErrorException,
-  BadGatewayException,
-} from '@nestjs/common';
+  ApiInternalServerErrorException,
+  ApiBadGatewayException,
+} from './ApiError.js';
 
 export class JPErrors {
   // 予期しないエラー
-  static JP500_01(details?: unknown): InternalServerErrorException {
-    return new InternalServerErrorException({
-      statusCode: 500,
+  static JP500_01(details?: unknown): ApiInternalServerErrorException {
+    return new ApiInternalServerErrorException({
       errorCode: 'JP500_01',
       message: '外部API通信で予期しないエラーが発生しました',
       details,
@@ -15,9 +14,8 @@ export class JPErrors {
   }
 
   // 通信応答エラー
-  static JP502_01(details?: unknown): BadGatewayException {
-    return new BadGatewayException({
-      statusCode: 502,
+  static JP502_01(details?: unknown): ApiBadGatewayException {
+    return new ApiBadGatewayException({
       errorCode: 'JP502_01',
       message: '外部API通信で応答エラーが発生しました',
       details,
