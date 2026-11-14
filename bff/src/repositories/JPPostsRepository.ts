@@ -1,6 +1,8 @@
+import { Injectable } from '@nestjs/common';
 import { JPErrors } from '../exceptions/JPErrors.js';
 import { ConfigService } from '@nestjs/config';
 
+@Injectable()
 export class JPPostsRepository {
   private readonly jpBaseUrl: string;
 

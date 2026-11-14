@@ -1,4 +1,5 @@
 import { ApiError } from '../exceptions/ApiError.js';
+import { ConfigService } from '@nestjs/config';
 import { JPPostsRepository } from './JPPostsRepository.js';
 
 describe('JPPostsRepository', () => {
@@ -6,7 +7,9 @@ describe('JPPostsRepository', () => {
   const fetchMock = vi.fn<typeof fetch>();
 
   beforeEach(() => {
-    repository = new JPPostsRepository();
+    repository = new JPPostsRepository(
+      new ConfigService({ JP_BASE_URL: 'https://jsonplaceholder.typicode.com' }),
+    );
     fetchMock.mockReset();
     vi.stubGlobal('fetch', fetchMock);
   });
