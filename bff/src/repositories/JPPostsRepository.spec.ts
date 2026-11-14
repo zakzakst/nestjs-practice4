@@ -1,4 +1,5 @@
-import { ApiError } from '../exceptions/ApiError.js';
+import { ApiBadGatewayException } from '../exceptions/ApiError.js';
+import { JPErrors } from '../exceptions/JPErrors.js';
 import { ConfigService } from '@nestjs/config';
 import { JPPostsRepository } from './JPPostsRepository.js';
 
@@ -20,22 +21,17 @@ describe('JPPostsRepository', () => {
     vi.unstubAllGlobals();
   });
 
-  it('getで外部APIが失敗した場合、ApiErrorをスローする', async () => {
+  it('getで外部API通信応答エラーが発生した場合、JP502_01をスローする', async () => {
     const response = new Response(null, { status: 500 });
     fetchMock.mockResolvedValue(response);
 
     const result = repository.get();
 
-    await expect(result).rejects.toBeInstanceOf(ApiError);
-    await expect(result).rejects.toMatchObject({
-      message: '外部API通信で予期しないエラーが発生しました',
-      code: 'JP500_01',
-      logLevel: 'ERROR',
-      details: response,
-    });
+    await expect(result).rejects.toBeInstanceOf(ApiBadGatewayException);
+    await expect(result).rejects.toMatchObject(JPErrors.JP502_01(response));
   });
 
-  it('postで外部APIが失敗した場合、ApiErrorをスローする', async () => {
+  it('postで外部API通信応答エラーが発生した場合、JP502_01をスローする', async () => {
     const response = new Response(null, { status: 500 });
     fetchMock.mockResolvedValue(response);
 
@@ -45,12 +41,7 @@ describe('JPPostsRepository', () => {
       body: '内容',
     });
 
-    await expect(result).rejects.toBeInstanceOf(ApiError);
-    await expect(result).rejects.toMatchObject({
-      message: '外部API通信で予期しないエラーが発生しました',
-      code: 'JP500_01',
-      logLevel: 'ERROR',
-      details: response,
-    });
+    await expect(result).rejects.toBeInstanceOf(ApiBadGatewayException);
+    await expect(result).rejects.toMatchObject(JPErrors.JP502_01(response));
   });
 });
