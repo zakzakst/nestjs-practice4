@@ -26,11 +26,14 @@ describe('JPPostsRepository', () => {
 
   describe('get', () => {
     it('fetchに失敗した場合、JP500_01をスローする', async () => {
+      // Arrange
       const error = new Error('dummy error');
       fetchMock.mockRejectedValue(error);
 
+      // Act
       const result = repository.get();
 
+      // Assert
       await expect(result).rejects.toBeInstanceOf(
         ApiInternalServerErrorException,
       );
@@ -38,11 +41,14 @@ describe('JPPostsRepository', () => {
     });
 
     it('外部API通信応答エラーが発生した場合、JP502_01をスローする', async () => {
+      // Arrange
       const response = new Response(null, { status: 500 });
       fetchMock.mockResolvedValue(response);
 
+      // Act
       const result = repository.get();
 
+      // Assert
       await expect(result).rejects.toBeInstanceOf(ApiBadGatewayException);
       await expect(result).rejects.toMatchObject(JPErrors.JP502_01(response));
     });
@@ -50,15 +56,18 @@ describe('JPPostsRepository', () => {
 
   describe('post', () => {
     it('fetchに失敗した場合、JP500_01をスローする', async () => {
+      // Arrange
       const error = new Error('dummy error');
       fetchMock.mockRejectedValue(error);
 
+      // Act
       const result = repository.post({
         userId: 1,
         title: '投稿',
         body: '内容',
       });
 
+      // Assert
       await expect(result).rejects.toBeInstanceOf(
         ApiInternalServerErrorException,
       );
@@ -66,15 +75,18 @@ describe('JPPostsRepository', () => {
     });
 
     it('外部API通信応答エラーが発生した場合、JP502_01をスローする', async () => {
+      // Arrange
       const response = new Response(null, { status: 500 });
       fetchMock.mockResolvedValue(response);
 
+      // Act
       const result = repository.post({
         userId: 1,
         title: '投稿',
         body: '内容',
       });
 
+      // Assert
       await expect(result).rejects.toBeInstanceOf(ApiBadGatewayException);
       await expect(result).rejects.toMatchObject(JPErrors.JP502_01(response));
     });
