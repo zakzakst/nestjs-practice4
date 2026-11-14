@@ -1,21 +1,20 @@
-type LogLevel = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+import {
+  InternalServerErrorException,
+  BadGatewayException,
+} from '@nestjs/common';
+
+export type LogLevel = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
 
 type ApiErrorOptions = {
-  code?: string;
+  statusCode?: number;
   logLevel?: LogLevel;
+  errorCode: string;
+  message: string;
   details?: unknown;
 };
 
-export class ApiError extends Error {
-  public readonly code?: string;
-  public readonly logLevel?: LogLevel;
-  public readonly details?: unknown;
-
-  constructor(message: string, options?: ApiErrorOptions) {
+export class ApiInternalServerErrorException extends InternalServerErrorException {
+  constructor(options: ApiErrorOptions) {
     super();
-    this.message = message;
-    this.code = options?.code;
-    this.logLevel = options?.logLevel || 'ERROR';
-    this.details = options?.details;
   }
 }

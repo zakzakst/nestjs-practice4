@@ -20,7 +20,7 @@ export class JPPostsRepository {
     }
 
     if (!response.ok) {
-      throw JPErrors.JP500_01(response);
+      throw JPErrors.JP502_01(response);
     }
 
     return (await response.json()) as JPPaths.Posts.Get.Responses.$200;
@@ -44,7 +44,7 @@ export class JPPostsRepository {
     }
 
     if (!response.ok) {
-      throw JPErrors.JP500_01(response);
+      throw JPErrors.JP502_01(response);
     }
 
     return (await response.json()) as JPPaths.Posts.Post.Responses.$201;
