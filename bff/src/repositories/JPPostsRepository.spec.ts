@@ -8,7 +8,9 @@ describe('JPPostsRepository', () => {
 
   beforeEach(() => {
     repository = new JPPostsRepository(
-      new ConfigService({ JP_BASE_URL: 'https://jsonplaceholder.typicode.com' }),
+      new ConfigService({
+        JP_BASE_URL: 'http://127.0.0.1:3000/dummy-jp/posts',
+      }),
     );
     fetchMock.mockReset();
     vi.stubGlobal('fetch', fetchMock);
