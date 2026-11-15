@@ -2,10 +2,11 @@ import { http, HttpResponse } from 'msw';
 
 const posts = (() => {
   const ARRAY_NUM = 100;
-  const result = Array(ARRAY_NUM).map((_, index) => {
+  const result = Array.from({ length: ARRAY_NUM }, (_, index) => {
     const id = index + 1;
     return {
       id,
+      // TODO: 10区切りでuserId
       userId: id,
       title: `タイトル ${id}`,
       body: `内容 ${id}`,
