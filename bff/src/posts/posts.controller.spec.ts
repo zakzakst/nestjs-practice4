@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PostsController } from './posts.controller.js';
 import { PostsService } from './posts.service.js';
 import { JPPostsRepository } from '../repositories/JPPostsRepository.js';
+import { PostsIdService } from './postsId.service.js';
+import { JPPostsIdRepository } from '../repositories/JPPostsIdRepository.js';
 
 describe('PostsController', () => {
   let controller: PostsController;
@@ -11,12 +13,20 @@ describe('PostsController', () => {
     post: vi.fn<JPPostsRepository['post']>(),
   };
 
+  const postsIdRepositoryMock = {
+    get: vi.fn<JPPostsIdRepository['get']>(),
+    put: vi.fn<JPPostsIdRepository['put']>(),
+    delete: vi.fn<JPPostsIdRepository['delete']>(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PostsController],
       providers: [
         PostsService,
         { provide: JPPostsRepository, useValue: postsRepositoryMock },
+        PostsIdService,
+        { provide: JPPostsIdRepository, useValue: postsIdRepositoryMock },
       ],
     }).compile();
 
@@ -121,6 +131,84 @@ describe('PostsController', () => {
         // @ts-expect-error
         controller.create(request),
       ).rejects.toThrow('リクエストの形式が正しくありません');
+    });
+  });
+
+  describe('find', () => {
+    it('渡された値が、postsRepositoryに連携される', async () => {
+      // Arrange
+      const id = 1;
+
+      // Act
+      await controller.find(id);
+
+      // Assert
+      expect(postsIdRepositoryMock.get).toHaveBeenCalledWith(id);
+    });
+  });
+
+  describe('update', () => {
+    it('渡された値が、postsRepositoryに連携される', async () => {
+      // Arrange
+      const id = 1;
+      const payload = {
+        id,
+        userId: 1,
+        title: '投稿1',
+        body: '内容1',
+      };
+
+      // Act
+      await controller.update(id, payload);
+
+      // Assert
+      expect(postsIdRepositoryMock.put).toHaveBeenCalledWith(id, payload);
+    });
+
+    it('リクエストデータの必須項目が不足している場合、エラーになる', async () => {
+      // Arrange
+      const id = 1;
+      const payload = {
+        id,
+        title: '投稿1',
+        body: '内容1',
+      };
+
+      // Assert
+      await expect(
+        // @ts-expect-error
+        controller.update(id, payload),
+      ).rejects.toThrow('リクエストの必須項目が不足しています');
+    });
+
+    it('リクエストの形式が正しくない場合、エラーになる', async () => {
+      // Arrange
+      const id = 1;
+      const payload = {
+        id,
+        userId: '1',
+        title: '投稿1',
+        body: '内容1',
+      };
+
+      // Assert
+      await expect(
+        // @ts-expect-error
+        controller.update(id, payload),
+      ).rejects.toThrow('リクエストの形式が正しくありません');
+    });
+  });
+
+  describe('remove', () => {
+    it('渡された値が、postsRepositoryに連携される', async () => {
+      // Arrange
+      const id = 1;
+
+      // Act
+      await controller.remove(id);
+
+      // Assert
+      expect(postsIdRepositoryMock.delete).toHaveBeenCalledWith(id);
     });
   });
 });

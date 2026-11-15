@@ -40,7 +40,7 @@ export class JPPostsIdRepository {
 
     try {
       response = await fetch(`${this.jpBaseUrl}/posts/${id}`, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(payload),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',

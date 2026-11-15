@@ -1,0 +1,25 @@
+info:
+  name: 投稿更新
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: http://127.0.0.1:3000/posts/1
+  body:
+    type: json
+    data: |-
+      {
+        "id": 1,
+        "userId": 1,
+        "title": "更新後タイトル 1",
+        "body": "更新後内容 1"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
