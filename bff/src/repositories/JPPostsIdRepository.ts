@@ -21,6 +21,10 @@ export class JPPostsIdRepository {
       throw JPErrors.JP500_01(e);
     }
 
+    if (response.status === 404) {
+      throw JPErrors.JP404_01(response);
+    }
+
     if (!response.ok) {
       throw JPErrors.JP502_01(response);
     }
@@ -46,6 +50,10 @@ export class JPPostsIdRepository {
       throw JPErrors.JP500_01(e);
     }
 
+    if (response.status === 404) {
+      throw JPErrors.JP404_01(response);
+    }
+
     if (!response.ok) {
       throw JPErrors.JP502_01(response);
     }
@@ -64,6 +72,10 @@ export class JPPostsIdRepository {
       });
     } catch (e) {
       throw JPErrors.JP500_01(e);
+    }
+
+    if (response.status === 404) {
+      throw JPErrors.JP404_01(response);
     }
 
     if (!response.ok) {
