@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  NotFoundException,
   InternalServerErrorException,
   BadGatewayException,
 } from '@nestjs/common';
@@ -19,6 +20,18 @@ export class ApiBadRequestException extends BadRequestException {
       statusCode: 400,
       errorCode: options.errorCode,
       message: options.message ?? 'リクエストが不正な形式でした',
+      logLevel: options.logLevel ?? 'ERROR',
+      details: options.details,
+    });
+  }
+}
+
+export class ApiNotFoundException extends NotFoundException {
+  constructor(options: ApiErrorOptions) {
+    super({
+      statusCode: 404,
+      errorCode: options.errorCode,
+      message: options.message ?? '指定されたデータが見つかりません',
       logLevel: options.logLevel ?? 'ERROR',
       details: options.details,
     });

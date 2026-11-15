@@ -1,9 +1,19 @@
 import {
+  ApiNotFoundException,
   ApiInternalServerErrorException,
   ApiBadGatewayException,
 } from './ApiError.js';
 
 export class JPErrors {
+  // 指定した投稿がない
+  static JP404_01(details?: unknown): ApiNotFoundException {
+    return new ApiNotFoundException({
+      errorCode: 'JP404_01',
+      message: '指定された投稿データが見つかりません',
+      details,
+    });
+  }
+
   // 予期しないエラー
   static JP500_01(details?: unknown): ApiInternalServerErrorException {
     return new ApiInternalServerErrorException({
