@@ -67,7 +67,7 @@ describe('PostsController', () => {
         items: [
           {
             id: 2,
-            userId: 2,
+            userId: 1,
             title: 'タイトル 2',
             body: '内容 2',
           },
