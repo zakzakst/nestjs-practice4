@@ -4,6 +4,7 @@ import request from 'supertest';
 import { App } from 'supertest/types.js';
 import { AppModule } from './../src/app.module.js';
 import { jpMockServer } from '../mocks/jp/index.js';
+import { getPosts } from '../mocks/jp/handlers/posts.js';
 
 describe('PostsController', () => {
   let app: INestApplication<App>;
@@ -40,23 +41,46 @@ describe('PostsController', () => {
     jpMockServer.close();
   });
 
-  it('投稿一覧取得', () => {
-    const response = {
-      total: 100,
-      limit: 1,
-      page: 1,
-      items: [
-        {
-          id: 1,
-          userId: 1,
-          title: 'タイトル 1',
-          body: '内容 1',
-        },
-      ],
-    };
-    return request(app.getHttpServer())
-      .get('/posts?limit=1')
-      .expect(200)
-      .expect(response);
+  describe('投稿一覧取得', () => {
+    it('クエリなしの場合、デフォルトの絞り込みになる', () => {
+      const response = {
+        total: 100,
+        limit: 20,
+        page: 1,
+        items: getPosts(20),
+      };
+      return request(app.getHttpServer())
+        .get('/posts')
+        .expect(200)
+        .expect(response);
+    });
+
+    it('クエリでの絞り込みが有効である', () => {
+      const response = {
+        total: 100,
+        limit: 1,
+        page: 2,
+        items: [
+          {
+            id: 2,
+            userId: 2,
+            title: 'タイトル 2',
+            body: '内容 2',
+          },
+        ],
+      };
+      return request(app.getHttpServer())
+        .get('/posts?limit=1&page=2')
+        .expect(200)
+        .expect(response);
+    });
+
+    it('不正なクエリが渡された場合、エラーになる', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/posts?limit=not_number_string')
+        .expect(400);
+
+      expect(response.body.message).toBe('リクエストの形式が正しくありません');
+    });
   });
 });

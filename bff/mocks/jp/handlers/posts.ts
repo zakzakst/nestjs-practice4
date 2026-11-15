@@ -1,8 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
-const posts = (() => {
-  const ARRAY_NUM = 100;
-  const result = Array.from({ length: ARRAY_NUM }, (_, index) => {
+export const getPosts = (num: number) => {
+  const result = Array.from({ length: num }, (_, index) => {
     const id = index + 1;
     return {
       id,
@@ -13,10 +12,10 @@ const posts = (() => {
     };
   });
   return result;
-})();
+};
 
 export const postsHandlers = [
   http.get('https://jsonplaceholder.typicode.com/posts', () => {
-    return HttpResponse.json(posts);
+    return HttpResponse.json(getPosts(100));
   }),
 ];
