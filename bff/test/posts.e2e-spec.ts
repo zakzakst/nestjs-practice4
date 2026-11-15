@@ -149,4 +149,50 @@ describe('PostsController', () => {
       );
     });
   });
+
+  describe('投稿取得', () => {
+    it('投稿が取得できる', async () => {
+      // Assert
+      return request(app.getHttpServer()).get('/posts/1').expect(200).expect({
+        id: 1,
+        userId: 1,
+        title: 'タイトル 1',
+        body: '内容 1',
+      });
+    });
+
+    it('指定した投稿が存在しない場合、エラーになる', async () => {
+      // Act
+      const response = await request(app.getHttpServer())
+        .get('/posts/999')
+        .expect(404);
+
+      // Assert
+      expect(response.body.message).toBe(
+        '指定された投稿データが見つかりません',
+      );
+    });
+  });
+
+  describe('投稿削除', () => {
+    it('投稿が削除できる', async () => {
+      // Assert
+      return request(app.getHttpServer())
+        .delete('/posts/1')
+        .expect(204)
+        .expect({});
+    });
+
+    it('指定した投稿が存在しない場合、エラーになる', async () => {
+      // Act
+      const response = await request(app.getHttpServer())
+        .delete('/posts/999')
+        .expect(404);
+
+      // Assert
+      expect(response.body.message).toBe(
+        '指定された投稿データが見つかりません',
+      );
+    });
+  });
 });
