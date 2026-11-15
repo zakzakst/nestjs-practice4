@@ -1,7 +1,10 @@
 import { http, HttpResponse } from 'msw';
 
-// TODO: 環境変数を参照する
-const baseUrl = 'https://jsonplaceholder.typicode.com';
+const baseUrl = process.env.JP_BASE_URL;
+
+if (!baseUrl) {
+  throw new Error('JP_BASE_URL environment variable is required');
+}
 
 export const getPosts = (num: number) => {
   const result = Array.from({ length: num }, (_, index) => {
