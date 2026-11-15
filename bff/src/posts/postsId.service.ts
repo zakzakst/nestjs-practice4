@@ -10,8 +10,6 @@ const updateSchema = z.object({
   body: z.string(),
 });
 
-// TODO: 対象の投稿が無い場合のエラーハンドリング
-
 @Injectable()
 export class PostsIdService {
   constructor(private readonly postsIdRepository: JPPostsIdRepository) {}

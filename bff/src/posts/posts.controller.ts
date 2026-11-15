@@ -1,9 +1,24 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  Query,
+  ParseIntPipe,
+  HttpCode,
+} from '@nestjs/common';
 import { PostsService } from './posts.service.js';
+import { PostsIdService } from './postsId.service.js';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(
+    private readonly postsService: PostsService,
+    private readonly postsIdService: PostsIdService,
+  ) {}
 
   @Get()
   findAll(
@@ -19,8 +34,31 @@ export class PostsController {
 
   @Post()
   create(
-    @Body() request: BFFPaths.Posts.Post.RequestBody,
+    @Body() body: BFFPaths.Posts.Post.RequestBody,
   ): Promise<BFFPaths.Posts.Post.Responses.$201> {
-    return this.postsService.create(request);
+    return this.postsService.create(body);
+  }
+
+  @Get(':id')
+  find(
+    @Param('id', ParseIntPipe) id: BFFPaths.Posts$Id.Get.Parameters.Id,
+  ): Promise<BFFPaths.Posts$Id.Get.Responses.$200> {
+    return this.postsIdService.find(id);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: BFFPaths.Posts$Id.Put.Parameters.Id,
+    @Body() body: BFFPaths.Posts$Id.Put.RequestBody,
+  ): Promise<BFFPaths.Posts$Id.Put.Responses.$200> {
+    return this.postsIdService.update(id, body);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  remove(
+    @Param('id', ParseIntPipe) id: BFFPaths.Posts$Id.Delete.Parameters.Id,
+  ): Promise<BFFPaths.Posts$Id.Delete.Responses.$204> {
+    return this.postsIdService.remove(id);
   }
 }
