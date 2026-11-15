@@ -18,4 +18,19 @@ export const postsHandlers = [
   http.get('https://jsonplaceholder.typicode.com/posts', () => {
     return HttpResponse.json(getPosts(100));
   }),
+
+  http.post(
+    'https://jsonplaceholder.typicode.com/posts',
+    async ({ request }) => {
+      const data = (await request.json()) as JPPaths.Posts.Post.Responses.$201;
+
+      return HttpResponse.json(
+        {
+          ...data,
+          id: 1,
+        },
+        { status: 201 },
+      );
+    },
+  ),
 ];

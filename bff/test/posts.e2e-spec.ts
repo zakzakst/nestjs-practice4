@@ -42,13 +42,16 @@ describe('PostsController', () => {
   });
 
   describe('投稿一覧取得', () => {
-    it('クエリなしの場合、デフォルトの絞り込みになる', () => {
+    it('クエリなしの場合、デフォルトの絞り込みになる', async () => {
+      // Arrange
       const response = {
         total: 100,
         limit: 20,
         page: 1,
         items: getPosts(20),
       };
+
+      // Assert
       return request(app.getHttpServer())
         .get('/posts')
         .expect(200)
@@ -56,6 +59,7 @@ describe('PostsController', () => {
     });
 
     it('クエリでの絞り込みが有効である', () => {
+      // Arrange
       const response = {
         total: 100,
         limit: 1,
@@ -69,18 +73,80 @@ describe('PostsController', () => {
           },
         ],
       };
+
+      // Assert
       return request(app.getHttpServer())
         .get('/posts?limit=1&page=2')
         .expect(200)
         .expect(response);
     });
 
-    it('不正なクエリが渡された場合、エラーになる', async () => {
+    it('不正なクエリが送られた場合、エラーになる', async () => {
+      // Act
       const response = await request(app.getHttpServer())
         .get('/posts?limit=not_number_string')
         .expect(400);
 
+      // Assert
       expect(response.body.message).toBe('リクエストの形式が正しくありません');
+    });
+  });
+
+  describe('新規投稿作成', () => {
+    it('正しいリクエストが送られた場合、新規投稿が作成される', () => {
+      // Arrange
+      const post = {
+        userId: 1,
+        title: 'タイトル 1',
+        body: '内容 1',
+      };
+
+      // Assert
+      return request(app.getHttpServer())
+        .post('/posts')
+        .send(post)
+        .expect(201)
+        .expect({
+          ...post,
+          id: 1,
+        });
+    });
+
+    it('形式が正しくないリクエストが送られた場合、エラーになる', async () => {
+      // Arrange
+      const post = {
+        userId: '1',
+        title: 'タイトル 1',
+        body: '内容 1',
+      };
+
+      // Act
+      const response = await request(app.getHttpServer())
+        .post('/posts')
+        .send(post)
+        .expect(400);
+
+      // Assert
+      expect(response.body.message).toBe('リクエストの形式が正しくありません');
+    });
+
+    it('必須項目不足のリクエストが送られた場合、エラーになる', async () => {
+      // Arrange
+      const post = {
+        title: 'タイトル 1',
+        body: '内容 1',
+      };
+
+      // Act
+      const response = await request(app.getHttpServer())
+        .post('/posts')
+        .send(post)
+        .expect(400);
+
+      // Assert
+      expect(response.body.message).toBe(
+        'リクエストの必須項目が不足しています',
+      );
     });
   });
 });
