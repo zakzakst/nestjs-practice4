@@ -174,6 +174,85 @@ describe('PostsController', () => {
     });
   });
 
+  describe('投稿更新', () => {
+    it('投稿が更新できる', async () => {
+      // Arrange
+      const post = {
+        id: 1,
+        userId: 1,
+        title: 'タイトル 1',
+        body: '内容 1',
+      };
+
+      // Assert
+      return request(app.getHttpServer())
+        .put('/posts/1')
+        .send(post)
+        .expect(200)
+        .expect(post);
+    });
+
+    it('形式が正しくないリクエストが送られた場合、エラーになる', async () => {
+      // Arrange
+      const post = {
+        id: 1,
+        userId: '1',
+        title: 'タイトル 1',
+        body: '内容 1',
+      };
+
+      // Act
+      const response = await request(app.getHttpServer())
+        .put('/posts/1')
+        .send(post)
+        .expect(400);
+
+      // Assert
+      expect(response.body.message).toBe('リクエストの形式が正しくありません');
+    });
+
+    it('必須項目不足のリクエストが送られた場合、エラーになる', async () => {
+      // Arrange
+      const post = {
+        id: 1,
+        title: 'タイトル 1',
+        body: '内容 1',
+      };
+
+      // Act
+      const response = await request(app.getHttpServer())
+        .put('/posts/1')
+        .send(post)
+        .expect(400);
+
+      // Assert
+      expect(response.body.message).toBe(
+        'リクエストの必須項目が不足しています',
+      );
+    });
+
+    it('指定した投稿が存在しない場合、エラーになる', async () => {
+      // Arrange
+      const post = {
+        id: 999,
+        userId: 1,
+        title: 'タイトル 1',
+        body: '内容 1',
+      };
+
+      // Act
+      const response = await request(app.getHttpServer())
+        .put('/posts/999')
+        .send(post)
+        .expect(404);
+
+      // Assert
+      expect(response.body.message).toBe(
+        '指定された投稿データが見つかりません',
+      );
+    });
+  });
+
   describe('投稿削除', () => {
     it('投稿が削除できる', async () => {
       // Assert

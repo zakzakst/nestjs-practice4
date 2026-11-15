@@ -25,6 +25,21 @@ export const postsIdHandlers = [
     });
   }),
 
+  http.put(`${baseUrl}/posts/:id`, async ({ request, params }) => {
+    const { id } = params;
+
+    if (id === '999') {
+      return HttpResponse.json(
+        { error: 'ユーザーが見つかりません' },
+        { status: 404 },
+      );
+    }
+
+    const data = (await request.json()) as JPPaths.Posts$Id.Put.Responses.$200;
+
+    return HttpResponse.json(data);
+  }),
+
   http.delete(`${baseUrl}/posts/:id`, ({ params }) => {
     const { id } = params;
 
