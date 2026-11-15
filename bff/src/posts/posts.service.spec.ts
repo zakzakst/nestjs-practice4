@@ -63,14 +63,14 @@ describe('PostsService', () => {
       });
     });
 
-    it('リクエストの形式が正しくない場合、エラーになる', () => {
+    it('リクエストの形式が正しくない場合、エラーになる', async () => {
       // Arrange
       const request = {
         page: '2',
       };
 
       // Assert
-      expect(
+      await expect(
         // @ts-expect-error
         service.findAll(request),
       ).rejects.toThrow('リクエストの形式が正しくありません');
@@ -101,7 +101,7 @@ describe('PostsService', () => {
       };
 
       // Assert
-      expect(
+      await expect(
         // @ts-expect-error
         service.create(request),
       ).rejects.toThrow('リクエストの必須項目が不足しています');
@@ -116,7 +116,7 @@ describe('PostsService', () => {
       };
 
       // Assert
-      expect(
+      await expect(
         // @ts-expect-error
         service.create(request),
       ).rejects.toThrow('リクエストの形式が正しくありません');

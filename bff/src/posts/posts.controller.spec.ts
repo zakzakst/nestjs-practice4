@@ -65,14 +65,14 @@ describe('PostsController', () => {
       });
     });
 
-    it('リクエストの形式が正しくない場合、エラーになる', () => {
+    it('リクエストの形式が正しくない場合、エラーになる', async () => {
       // Arrange
       const request = {
         page: 'not number string',
       };
 
       // Assert
-      expect(controller.findAll(request)).rejects.toThrow(
+      await expect(controller.findAll(request)).rejects.toThrow(
         'リクエストの形式が正しくありません',
       );
     });
@@ -102,7 +102,7 @@ describe('PostsController', () => {
       };
 
       // Assert
-      expect(
+      await expect(
         // @ts-expect-error
         controller.create(request),
       ).rejects.toThrow('リクエストの必須項目が不足しています');
@@ -117,7 +117,7 @@ describe('PostsController', () => {
       };
 
       // Assert
-      expect(
+      await expect(
         // @ts-expect-error
         controller.create(request),
       ).rejects.toThrow('リクエストの形式が正しくありません');

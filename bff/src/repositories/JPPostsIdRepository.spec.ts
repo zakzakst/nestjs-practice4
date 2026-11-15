@@ -1,0 +1,96 @@
+import {
+  ApiInternalServerErrorException,
+  ApiBadGatewayException,
+} from '../exceptions/ApiError.js';
+import { JPErrors } from '../exceptions/JPErrors.js';
+import { ConfigService } from '@nestjs/config';
+import { JPPostsIdRepository } from './JPPostsIdRepository.js';
+
+describe('JPPostsIdRepository', () => {
+  let repository: JPPostsIdRepository;
+  const fetchMock = vi.fn<typeof fetch>();
+
+  beforeEach(() => {
+    repository = new JPPostsIdRepository(
+      new ConfigService({
+        JP_BASE_URL: 'http://127.0.0.1:3000/dummy-jp/posts',
+      }),
+    );
+    fetchMock.mockReset();
+    vi.stubGlobal('fetch', fetchMock);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  describe('get', () => {
+    it('fetchに失敗した場合、JP500_01をスローする', async () => {
+      // Arrange
+      const error = new Error('dummy error');
+      fetchMock.mockRejectedValue(error);
+
+      // Act
+      const result = repository.get(1);
+
+      // Assert
+      await expect(result).rejects.toBeInstanceOf(
+        ApiInternalServerErrorException,
+      );
+      await expect(result).rejects.toMatchObject(JPErrors.JP500_01(error));
+    });
+
+    it('外部API通信応答エラーが発生した場合、JP502_01をスローする', async () => {
+      // Arrange
+      const response = new Response(null, { status: 500 });
+      fetchMock.mockResolvedValue(response);
+
+      // Act
+      const result = repository.get(1);
+
+      // Assert
+      await expect(result).rejects.toBeInstanceOf(ApiBadGatewayException);
+      await expect(result).rejects.toMatchObject(JPErrors.JP502_01(response));
+    });
+  });
+
+  describe('put', () => {
+    it('fetchに失敗した場合、JP500_01をスローする', async () => {
+      // Arrange
+      const error = new Error('dummy error');
+      fetchMock.mockRejectedValue(error);
+
+      // Act
+      const result = repository.put(1, {
+        id: 1,
+        userId: 1,
+        title: '投稿',
+        body: '内容',
+      });
+
+      // Assert
+      await expect(result).rejects.toBeInstanceOf(
+        ApiInternalServerErrorException,
+      );
+      await expect(result).rejects.toMatchObject(JPErrors.JP500_01(error));
+    });
+
+    it('外部API通信応答エラーが発生した場合、JP502_01をスローする', async () => {
+      // Arrange
+      const response = new Response(null, { status: 500 });
+      fetchMock.mockResolvedValue(response);
+
+      // Act
+      const result = repository.put(1, {
+        id: 1,
+        userId: 1,
+        title: '投稿',
+        body: '内容',
+      });
+
+      // Assert
+      await expect(result).rejects.toBeInstanceOf(ApiBadGatewayException);
+      await expect(result).rejects.toMatchObject(JPErrors.JP502_01(response));
+    });
+  });
+});
