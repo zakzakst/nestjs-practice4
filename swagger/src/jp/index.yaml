@@ -13,3 +13,5 @@ paths:
     $ref: ./paths/posts.yaml
   /posts/{id}:
     $ref: ./paths/postsId.yaml
+  /users/{id}:
+    $ref: ./paths/usersId.yaml

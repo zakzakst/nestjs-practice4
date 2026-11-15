@@ -22,6 +22,61 @@ declare namespace BFFComponents {
              */
             body: string;
         }
+        export interface User {
+            /**
+             * example:
+             * 1
+             */
+            id?: number;
+            /**
+             * example:
+             * 山田 太郎
+             */
+            name?: string;
+            /**
+             * example:
+             * ヤマちゃん
+             */
+            username?: string;
+            /**
+             * example:
+             * yamada@mail.com
+             */
+            email?: string; // email
+            address?: {
+                street?: string;
+                suite?: string;
+                city?: string;
+                zipcode?: string;
+                geo?: {
+                    lat?: string;
+                    lng?: string;
+                };
+            };
+            /**
+             * example:
+             * 8012345678
+             */
+            phone?: string;
+            /**
+             * example:
+             * https://www.yamada.com
+             */
+            website?: string; // uri
+            company?: {
+                /**
+                 * example:
+                 * 株式会社○○
+                 */
+                name?: string;
+                /**
+                 * example:
+                 * ✕✕に関する不安をすべて解決
+                 */
+                catchPhrase?: string;
+                bs?: string;
+            };
+        }
     }
 }
 declare namespace BFFPaths {
@@ -129,6 +184,43 @@ declare namespace BFFPaths {
             export type RequestBody = BFFComponents.Schemas.Post;
             namespace Responses {
                 export type $200 = BFFComponents.Schemas.Post;
+            }
+        }
+    }
+    namespace Users$Id {
+        namespace Delete {
+            namespace Parameters {
+                export type Id = number;
+            }
+            export interface PathParameters {
+                id: Parameters.Id;
+            }
+            namespace Responses {
+                export interface $204 {
+                }
+            }
+        }
+        namespace Get {
+            namespace Parameters {
+                export type Id = number;
+            }
+            export interface PathParameters {
+                id: Parameters.Id;
+            }
+            namespace Responses {
+                export type $200 = BFFComponents.Schemas.User;
+            }
+        }
+        namespace Put {
+            namespace Parameters {
+                export type Id = number;
+            }
+            export interface PathParameters {
+                id: Parameters.Id;
+            }
+            export type RequestBody = BFFComponents.Schemas.User;
+            namespace Responses {
+                export type $200 = BFFComponents.Schemas.User;
             }
         }
     }

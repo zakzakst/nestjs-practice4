@@ -1,0 +1,55 @@
+get:
+  summary: ユーザー取得
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: ユーザーID
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: 取得成功
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/user.yaml
+
+put:
+  summary: ユーザー更新
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: ユーザーID
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../schemas/user.yaml
+  responses:
+    "200":
+      description: 更新成功
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/user.yaml
+
+delete:
+  summary: ユーザー削除
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: ユーザーID
+      schema:
+        type: integer
+  responses:
+    "204":
+      description: 削除成功
+      content:
+        application/json:
+          schema:
+            type: object
