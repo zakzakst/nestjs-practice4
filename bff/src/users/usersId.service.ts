@@ -3,6 +3,30 @@ import { JPUsersIdRepository } from '../repositories/JPUsersIdRepository.js';
 import { BffErrors } from '../exceptions/BffErrors.js';
 import * as z from 'zod';
 
+const updateSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  username: z.string(),
+  email: z.string(),
+  address: z.object({
+    street: z.string(),
+    suite: z.string(),
+    city: z.string(),
+    zipcode: z.string(),
+    geo: z.object({
+      lat: z.string(),
+      lng: z.string(),
+    }),
+  }),
+  phone: z.string(),
+  website: z.string(),
+  company: z.object({
+    name: z.string(),
+    catchPhrase: z.string(),
+    bs: z.string(),
+  }),
+});
+
 @Injectable()
 export class UsersIdService {
   constructor(private readonly usersIdRepository: JPUsersIdRepository) {}
@@ -17,26 +41,10 @@ export class UsersIdService {
     id: BFFPaths.Users$Id.Put.Parameters.Id,
     request: BFFPaths.Users$Id.Put.RequestBody,
   ): Promise<BFFPaths.Users$Id.Put.Responses.$200> {
-    // const { userId, title, body } = request;
-
-    // const payload = {
-    //   id,
-    //   userId,
-    //   title,
-    //   body,
-    // };
-
-    // // 外部APIリクエストデータ検証
-    // const payloadCheckResult = updateSchema.safeParse(payload);
-    // if (!payloadCheckResult.success) {
-    //   const missingFields = (['id', 'userId', 'title', 'body'] as const).filter(
-    //     (field) => payload[field] === undefined,
-    //   );
-    //   if (missingFields.length > 0) {
-    //     throw BffErrors.BFF400_01();
-    //   }
-    //   throw BffErrors.BFF400_02();
-    // }
+    const requestCheckResult = updateSchema.safeParse(request);
+    if (!requestCheckResult.success) {
+      throw BffErrors.BFF400_02();
+    }
 
     return this.usersIdRepository.put(id, request);
   }

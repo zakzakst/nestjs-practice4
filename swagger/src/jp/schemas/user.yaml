@@ -1,5 +1,15 @@
 type: object
 
+required:
+  - id
+  - name
+  - username
+  - email
+  - address
+  - phone
+  - website
+  - company
+
 properties:
   id:
     type: integer
@@ -16,6 +26,12 @@ properties:
     example: yamada@mail.com
   address:
     type: object
+    required:
+      - street
+      - suite
+      - city
+      - zipcode
+      - geo
     properties:
       street:
         type: string
@@ -31,6 +47,9 @@ properties:
         # example: TODO（92998-3874）
       geo:
         type: object
+        required:
+          - lat
+          - lng
         properties:
           lat:
             type: string
@@ -47,6 +66,10 @@ properties:
     example: https://www.yamada.com
   company:
     type: object
+    required:
+      - name
+      - catchPhrase
+      - bs
     properties:
       name:
         type: string

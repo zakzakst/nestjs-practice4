@@ -27,54 +27,54 @@ declare namespace JPComponents {
              * example:
              * 1
              */
-            id?: number;
+            id: number;
             /**
              * example:
              * 山田 太郎
              */
-            name?: string;
+            name: string;
             /**
              * example:
              * ヤマちゃん
              */
-            username?: string;
+            username: string;
             /**
              * example:
              * yamada@mail.com
              */
-            email?: string; // email
-            address?: {
-                street?: string;
-                suite?: string;
-                city?: string;
-                zipcode?: string;
-                geo?: {
-                    lat?: string;
-                    lng?: string;
+            email: string; // email
+            address: {
+                street: string;
+                suite: string;
+                city: string;
+                zipcode: string;
+                geo: {
+                    lat: string;
+                    lng: string;
                 };
             };
             /**
              * example:
              * 8012345678
              */
-            phone?: string;
+            phone: string;
             /**
              * example:
              * https://www.yamada.com
              */
-            website?: string; // uri
-            company?: {
+            website: string; // uri
+            company: {
                 /**
                  * example:
                  * 株式会社○○
                  */
-                name?: string;
+                name: string;
                 /**
                  * example:
                  * ✕✕に関する不安をすべて解決
                  */
-                catchPhrase?: string;
-                bs?: string;
+                catchPhrase: string;
+                bs: string;
             };
         }
     }

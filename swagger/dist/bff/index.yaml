@@ -201,6 +201,15 @@ components:
           example: 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。
     user:
       type: object
+      required:
+        - id
+        - name
+        - username
+        - email
+        - address
+        - phone
+        - website
+        - company
       properties:
         id:
           type: integer
@@ -217,6 +226,12 @@ components:
           example: yamada@mail.com
         address:
           type: object
+          required:
+            - street
+            - suite
+            - city
+            - zipcode
+            - geo
           properties:
             street:
               type: string
@@ -228,6 +243,9 @@ components:
               type: string
             geo:
               type: object
+              required:
+                - lat
+                - lng
               properties:
                 lat:
                   type: string
@@ -242,6 +260,10 @@ components:
           example: https://www.yamada.com
         company:
           type: object
+          required:
+            - name
+            - catchPhrase
+            - bs
           properties:
             name:
               type: string
