@@ -59,7 +59,7 @@ properties:
             # example: TODO（81.1496）
   phone:
     type: string
-    example: 08012345678
+    example: "08012345678"
   website:
     type: string
     format: uri

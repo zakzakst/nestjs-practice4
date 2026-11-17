@@ -1,0 +1,42 @@
+info:
+  name: ユーザー更新
+  type: http
+  seq: 8
+
+http:
+  method: PUT
+  url: http://127.0.0.1:3000/posts/1
+  body:
+    type: json
+    data: |-
+      {
+        "id": 1,
+        "name": "山田 太郎",
+        "username": "ヤマちゃん",
+        "email": "yamada@mail.com",
+        "address": {
+          "street": "",
+          "suite": "",
+          "city": "",
+          "zipcode": "",
+          "geo": {
+            "lat": "",
+            "lng": ""
+          }
+        },
+        "phone": "08012345678",
+        "website": "https://www.yamada.com",
+        "company": {
+          "name": "株式会社○○",
+          "catchPhrase": "✕✕に関する不安をすべて解決",
+          "bs": ""
+        }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
