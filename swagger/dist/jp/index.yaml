@@ -230,7 +230,7 @@ components:
                   type: string
         phone:
           type: string
-          example: 8012345678
+          example: '08012345678'
         website:
           type: string
           format: uri

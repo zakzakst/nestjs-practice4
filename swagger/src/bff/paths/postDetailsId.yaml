@@ -1,0 +1,16 @@
+get:
+  summary: 投稿詳細取得
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: 投稿ID
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: 取得成功
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/postDetail.yaml

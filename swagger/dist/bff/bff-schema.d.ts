@@ -22,6 +22,38 @@ declare namespace BFFComponents {
              */
             body: string;
         }
+        export interface PostDetail {
+            /**
+             * example:
+             * 1
+             */
+            userId: number;
+            /**
+             * example:
+             * 1
+             */
+            id: number;
+            /**
+             * example:
+             * 初めてのブログ記事
+             */
+            title: string;
+            /**
+             * example:
+             * 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。
+             */
+            body: string;
+            /**
+             * example:
+             * ヤマちゃん
+             */
+            username: string;
+            /**
+             * example:
+             * yamada@mail.com
+             */
+            email: string; // email
+        }
         export interface User {
             /**
              * example:
@@ -55,7 +87,7 @@ declare namespace BFFComponents {
             };
             /**
              * example:
-             * 8012345678
+             * 08012345678
              */
             phone: string;
             /**
@@ -80,6 +112,19 @@ declare namespace BFFComponents {
     }
 }
 declare namespace BFFPaths {
+    namespace PostDetails$Id {
+        namespace Get {
+            namespace Parameters {
+                export type Id = number;
+            }
+            export interface PathParameters {
+                id: Parameters.Id;
+            }
+            namespace Responses {
+                export type $200 = BFFComponents.Schemas.PostDetail;
+            }
+        }
+    }
     namespace Posts {
         namespace Get {
             namespace Parameters {

@@ -177,6 +177,23 @@ paths:
             application/json:
               schema:
                 type: object
+  /post-details/{id}:
+    get:
+      summary: 投稿詳細取得
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 投稿ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postDetail'
 components:
   schemas:
     post:
@@ -253,7 +270,7 @@ components:
                   type: string
         phone:
           type: string
-          example: 8012345678
+          example: '08012345678'
         website:
           type: string
           format: uri
@@ -273,3 +290,32 @@ components:
               example: ✕✕に関する不安をすべて解決
             bs:
               type: string
+    postDetail:
+      type: object
+      required:
+        - userId
+        - id
+        - title
+        - body
+        - username
+        - email
+      properties:
+        userId:
+          type: integer
+          example: 1
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: 初めてのブログ記事
+        body:
+          type: string
+          example: 今日はブログを始めました。日々の学びや気づきを、少しずつ記事にしていきたいと思います。どうぞよろしくお願いします。
+        username:
+          type: string
+          example: ヤマちゃん
+        email:
+          type: string
+          format: email
+          example: yamada@mail.com

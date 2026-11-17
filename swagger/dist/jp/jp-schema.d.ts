@@ -55,7 +55,7 @@ declare namespace JPComponents {
             };
             /**
              * example:
-             * 8012345678
+             * 08012345678
              */
             phone: string;
             /**
