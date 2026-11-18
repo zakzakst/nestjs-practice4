@@ -31,16 +31,18 @@ describe('PostDetailsIdService', () => {
       // Arrange
       const id = 1;
       const userId = 2;
+      const mockUser = {
+        username: '',
+        email: '',
+      };
       postsIdRepositoryMock.get.mockResolvedValue({
         id,
         userId,
         title: '',
         body: '',
       });
-      usersIdRepositoryMock.get.mockResolvedValue({
-        username: '',
-        email: '',
-      });
+      // @ts-expect-error
+      usersIdRepositoryMock.get.mockResolvedValue(mockUser);
 
       // Act
       await service.find(id);
