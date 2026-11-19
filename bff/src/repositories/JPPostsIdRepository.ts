@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { JPErrors } from '../exceptions/JPErrors.js';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JPPostsIdRepository {
   private readonly jpBaseUrl: string;
+  private readonly logger = new Logger(JPPostsIdRepository.name);
 
   constructor(configService: ConfigService) {
     this.jpBaseUrl = configService.getOrThrow<string>('JP_BASE_URL');
@@ -13,6 +14,8 @@ export class JPPostsIdRepository {
   async get(
     id: JPPaths.Posts$Id.Get.Parameters.Id,
   ): Promise<JPPaths.Posts$Id.Get.Responses.$200> {
+    this.logger.log('JPPostsIdRepository.get called.');
+
     let response: Response;
 
     try {
