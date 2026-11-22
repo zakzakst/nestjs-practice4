@@ -12,3 +12,35 @@ APIのリクエストがどの処理を通り、どこで時間がかかった�
 
 イベントの詳細を記録する
 エラー内容や処理中のイベントなど、具体的な情報を記録する。
+
+#### Span（スパン）とは？
+
+Traceを理解するために、次にSpanという概念を理解しましょう。
+Spanとは、Traceを構成する個々の処理単位です。
+
+イメージとしては、
+Trace：一連の処理全体
+Span：Traceを構成する個々の処理
+という関係です。
+
+#### Spanにはどのような情報が記録されるのか？
+
+一般的に、Spanには次のような情報が含まれます。
+
+Span ID
+Spanを識別するためのID
+
+Name
+処理の名前（例：UsersService.findOne）
+
+Start Time / End Time
+処理の開始時刻と終了時刻
+
+Parent Span ID
+親Spanとの関係を表すID
+
+Status
+処理の成功・エラーなどの状態
+
+Attributes
+HTTPメソッド、URL、DB情報などの追加属性
