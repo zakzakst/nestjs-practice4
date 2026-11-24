@@ -1,4 +1,5 @@
 - http://127.0.0.1:3000/open-telemetry/slow
+- http://127.0.0.1:3000/open-telemetry/manual
 
 ### ① Traces（トレース）
 
