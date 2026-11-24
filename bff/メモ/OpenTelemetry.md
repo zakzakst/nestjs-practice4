@@ -1,3 +1,5 @@
+- http://127.0.0.1:3000/open-telemetry/slow
+
 ### ① Traces（トレース）
 
 処理の流れを追跡する
