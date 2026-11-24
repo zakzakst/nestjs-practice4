@@ -16,4 +16,9 @@ export class OpenTelemetryController {
   manual() {
     return this.openTelemetryService.manual();
   }
+
+  @Get('count')
+  count() {
+    return this.openTelemetryService.count();
+  }
 }

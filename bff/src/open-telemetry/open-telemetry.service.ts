@@ -1,8 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { trace, SpanStatusCode } from '@opentelemetry/api';
+import { trace, SpanStatusCode, metrics } from '@opentelemetry/api';
 
 // Tracerを取得
 const tracer = trace.getTracer('otel-practice');
+
+// Meterを取得
+const meter = metrics.getMeter('otel-practice');
+
+// Counterを作成
+const requestCounter = meter.createCounter('app.request.count', {
+  description: 'Application request count',
+  unit: '{request}',
+});
 
 @Injectable()
 export class OpenTelemetryService {
@@ -28,5 +37,11 @@ export class OpenTelemetryService {
         span.end();
       }
     });
+  }
+
+  count(): string {
+    // カウントを1増やす
+    requestCounter.add(1);
+    return 'Count';
   }
 }
