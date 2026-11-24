@@ -44,3 +44,7 @@ Status
 
 Attributes
 HTTPメソッド、URL、DB情報などの追加属性
+
+#### Monkey Patchingとは？
+
+既存の関数を、別の処理を追加した関数に置き換える手法です。
